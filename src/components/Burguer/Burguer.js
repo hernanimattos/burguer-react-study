@@ -1,22 +1,20 @@
-import React from 'react';
-import classes from './Burguer.module.css';
-import BurguerIngredient from './BurguerIngredient/BurguerIngredient';
+import React from "react";
+import classes from "./Burguer.module.css";
+import BurguerIngredient from "./BurguerIngredient/BurguerIngredient";
 
-// eslint-disable-no-unused-vars
-const burguer = (props) => {
+const burguer = props => {
   const { ingredients } = props || {};
 
-  const ingredientsChoiced = Object.keys(ingredients).map((itemKey) => [
-    ...Array(ingredients[itemKey]),
-  ]);
-
-  console.log(ingredientsChoiced);
+  const ingredientsChoiced = Object.keys(ingredients).map(itemKey => {
+    return [...Array(ingredients[itemKey])].map((_, i) => {
+      return <BurguerIngredient key={itemKey + i} type={itemKey} />;
+    });
+  });
 
   return (
     <div className={classes.Burguer}>
       <BurguerIngredient type="bread-top" />
-      <BurguerIngredient type="cheese" />
-      <BurguerIngredient type="meat" />
+      {ingredientsChoiced}
       <BurguerIngredient type="bread-bottom" />
     </div>
   );
