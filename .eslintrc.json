@@ -3,7 +3,7 @@
     "browser": true,
     "es6": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:jsx-a11y/recommended"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -16,6 +16,10 @@
     "sourceType": "module"
   },
   "parser": "babel-eslint",
-  "plugins": ["react"],
-  "rules": {}
+  "plugins": ["react", "jsx-a11y"],
+  "rules": {
+   "quotes": [2, "single", "avoid-escape"],
+   "react/jsx-uses-react": "error",
+     "react/jsx-uses-vars":"error"
+  }
 }

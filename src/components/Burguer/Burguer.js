@@ -1,6 +1,6 @@
-import React from "react";
-import classes from "./Burguer.module.css";
-import BurguerIngredient from "./BurguerIngredient/BurguerIngredient";
+import React from 'react';
+import classes from './Burguer.module.css';
+import BurguerIngredient from './BurguerIngredient/BurguerIngredient';
 
 const burguer = props => {
   const { ingredients } = props || {};

@@ -1,26 +1,51 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burguer from '../../components/Burguer/Burguer';
+import BuilderControls from '../../components/Burguer/BuildeControls/BuildControls'
 
 export default class BuilderBurguer extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
+    state = {
         ingredients: {
-          salad: 1,
-          bacon: 3,
-          chees: 2,
-          meat: 1,
+          salad: 0,
+          bacon: 0,
+          cheese: 0,
+          meat: 0,
         },
     };
+
+  addIndredient = (type) => {
+    const newState = this.state;
+    let ingredientUpdate = newState.ingredients;
+    ingredientUpdate[type]++;
+
+    this.setState({
+      ingredients: {
+        ...newState,
+        ...ingredientUpdate
+      }
+    })
+  };
+
+  removeIngedient = (type) => {
+
+    const newState = this.state;
+    let ingredientUpdate = newState.ingredients;
+    ingredientUpdate[type]--;
+
+    this.setState({
+      ingredients: {
+        ...newState,
+        ...ingredientUpdate
+      }
+    })
+
   }
 
   render() {
     return (
       <Aux>
         <Burguer ingredients={this.state.ingredients} />
-        <div>Builde burguer</div>
+        <BuilderControls addIndredient={this.addIndredient} removeIngredient={this.removeIngedient}/>
       </Aux>
     );
   }
