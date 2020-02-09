@@ -10,42 +10,78 @@ export default class BuilderBurguer extends Component {
           bacon: 0,
           cheese: 0,
           meat: 0,
-        },
+      },
+      price: {
+        salad: 0.5,
+          bacon: 1,
+          cheese: 0.5,
+          meat: 2,
+      },
+      totalPrice: 0
     };
+  buttonState = {};
+
+  buttonManageState = () => {
+    const newStateIngredients = { ...this.state.ingredients };
+
+    for (let key in newStateIngredients){
+      newStateIngredients[key]  = newStateIngredients[key]  <= 0
+    }
+
+    this.buttonState = newStateIngredients;
+  }
+
+  priceUpdate = (type, action) => {
+    const totalPrice = this.state.totalPrice;
+    console.log(totalPrice,'ff')
+    const newValue = action ? (totalPrice + this.state.price[type]) : (totalPrice - this.state.price[type]);
+    this.setState({totalPrice: newValue})
+  }
 
   addIndredient = (type) => {
-    const newState = this.state;
-    let ingredientUpdate = newState.ingredients;
-    ingredientUpdate[type]++;
+    const { ingredients, ...restState } = this.state;
+    let ingredientUpdate = ingredients[type]++;
 
     this.setState({
       ingredients: {
-        ...newState,
-        ...ingredientUpdate
-      }
-    })
+        ...ingredientUpdate,
+        ...ingredients
+      },
+      ...restState
+    });
+    this.priceUpdate(type, true);
   };
 
-  removeIngedient = (type) => {
+  removeIngredient = (type) => {
+    if (this.state.ingredients[type] <= 0) {
+      this.priceUpdate(type, false);
+      return;
+    }
 
-    const newState = this.state;
-    let ingredientUpdate = newState.ingredients;
-    ingredientUpdate[type]--;
+    const { ingredients, ...restState } = this.state;
+    let ingredientUpdate = ingredients[type]--;
 
     this.setState({
       ingredients: {
-        ...newState,
-        ...ingredientUpdate
-      }
-    })
-
+        ...ingredientUpdate,
+        ...ingredients
+      },
+      ...restState
+    });
+    this.priceUpdate(type, false);
   }
 
   render() {
+    this.buttonManageState();
     return (
       <Aux>
-        <Burguer ingredients={this.state.ingredients} />
-        <BuilderControls addIndredient={this.addIndredient} removeIngredient={this.removeIngedient}/>
+        <Burguer
+          ingredients={this.state.ingredients} />
+        <BuilderControls
+          addIndredient={this.addIndredient}
+          removeIngredient={this.removeIngredient}
+          buttonState={this.buttonState}
+          totalPrice={this.state.totalPrice}/>
       </Aux>
     );
   }

@@ -2,8 +2,6 @@ import React from 'react';
 import classes from './BuildControls.module.css';
 import BuildControl from './BuildControl/BuildControl';
 
-console.log(classes)
-
 const controls = [
   {
     label: 'Salad',
@@ -23,16 +21,22 @@ const controls = [
   }
 ];
 
-const buildControls = (props) => (
-  <div className={classes.BuildControls}>
-    {controls.map(ctrl => (
-      <BuildControl
-        key={ctrl.label}
-        label={ctrl.label}
-        add={() => props.addIndredient(ctrl.type)}
-        remove={()=> props.removeIngredient(ctrl.type)}/>
-    ))}
-  </div>
-);
+const buildControls = (props) => {
+
+  return (
+
+    <div className={classes.BuildControls}>
+      <h3>Total:<strong>{props.totalPrice.toFixed(2)}</strong></h3>
+      {controls.map(ctrl => (
+        <BuildControl
+          key={ctrl.label}
+          label={ctrl.label}
+          add={() => props.addIndredient(ctrl.type)}
+          remove={() => props.removeIngredient(ctrl.type)}
+          buttonState={props.buttonState[ctrl.type]} />
+      ))}
+    </div>
+  )
+};
 
 export default buildControls;
