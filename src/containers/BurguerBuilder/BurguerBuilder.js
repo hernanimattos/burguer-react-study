@@ -22,10 +22,16 @@ export default class BuilderBurguer extends Component {
     };
   buttonState = {};
 
-  buttonPurchaseState = () => {
-    const newState = { ...this.state };
-    console.log(newState.totalPrice)
-    this.setState({purchase: newState.totalPrice > 0})
+  buttonPurchaseState = (ingredients) => {
+    const haveIngredient = Object.keys(ingredients).map((key) => {
+      return ingredients[key];
+    }).reduce((a, b) => {
+
+      return a + b;
+
+    }, 0)
+    this.setState({purchase: haveIngredient > 0})
+
   }
 
   buttonManageState = () => {
@@ -56,7 +62,8 @@ export default class BuilderBurguer extends Component {
       ...restState
     });
     this.priceUpdate(type, true);
-    this.buttonPurchaseState();
+    this.buttonPurchaseState(this.state.ingredients);
+
   };
 
   removeIngredient = (type) => {
@@ -76,7 +83,7 @@ export default class BuilderBurguer extends Component {
       ...restState
     });
     this.priceUpdate(type, false);
-    this.buttonPurchaseState();
+    this.buttonPurchaseState(this.state.ingredients);
   }
 
   render() {
@@ -89,7 +96,8 @@ export default class BuilderBurguer extends Component {
           addIndredient={this.addIndredient}
           removeIngredient={this.removeIngredient}
           buttonState={this.buttonState}
-          totalPrice={this.state.totalPrice}/>
+          totalPrice={this.state.totalPrice}
+          purchase={this.state.purchase}/>
       </Aux>
     );
   }
