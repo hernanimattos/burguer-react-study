@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Aux from '../../hoc/Aux';
 import Burguer from '../../components/Burguer/Burguer';
-import BuilderControls from '../../components/Burguer/BuildeControls/BuildControls'
+import BuilderControls from '../../components/Burguer/BuildeControls/BuildControls';
+import Modal from '../../UI/Modal/Modal';
+import OrderSummary from '../../components/Burguer/OrderSummary/OrderSummary';
 
 export default class BuilderBurguer extends Component {
     state = {
@@ -18,9 +20,22 @@ export default class BuilderBurguer extends Component {
           meat: 2,
       },
       totalPrice: 0,
-      purchase: false
+      purchase: false,
+      purchaOrder: false,
     };
   buttonState = {};
+
+  cancelingPurchase = () => {
+    alert('cancel');
+  }
+
+  continuosPurchase = () => {
+    alert('continue');
+  }
+
+  purchaseOrder = () => {
+    this.setState({purchaOrder: !this.state.purchaOrder})
+  }
 
   buttonPurchaseState = (ingredients) => {
     const haveIngredient = Object.keys(ingredients).map((key) => {
@@ -90,6 +105,13 @@ export default class BuilderBurguer extends Component {
     this.buttonManageState();
     return (
       <Aux>
+        <Modal show={this.state.purchaOrder} clicked={this.purchaseOrder}>
+          <OrderSummary
+            ingredients={this.state.ingredients}
+            cancel={this.purchaseOrder  }
+            continue={this.continuosPurchase}
+            price={this.state.totalPrice}/>
+        </Modal>
         <Burguer
           ingredients={this.state.ingredients} />
         <BuilderControls
@@ -97,7 +119,8 @@ export default class BuilderBurguer extends Component {
           removeIngredient={this.removeIngredient}
           buttonState={this.buttonState}
           totalPrice={this.state.totalPrice}
-          purchase={this.state.purchase}/>
+          purchase={this.state.purchase}
+          ordered={this.purchaseOrder}/>
       </Aux>
     );
   }
