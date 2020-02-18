@@ -7,7 +7,9 @@ const Toolbar = () => {
   return (
     <header className={classes.Toolbar}>
       <div>menu</div>
-      <Logo/>
+      <div className={classes.Logo}>
+        <Logo/>
+      </div>
       <nav>
         <NavigationItems/>
       </nav>
